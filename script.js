@@ -98,6 +98,8 @@ search_btn.addEventListener('click', async () => {
 			sinopsis= cm.comments;
 		};
 	});
+	// eliminamos todas las etiquetas html, los símbolos de espacio especiales, los caracteres de saltos de línea de la cadena a través de una expresión regular
+	sinopsis= sinopsis.replace(/<[^>]*>|\n\n|\xa0/g, '');
 	// añadimos la cadena procesada como texto en el elemento p
 	modal_comments.innerText= sinopsis;
 	// cambiamos el atributo style display para que se visualice el contenido
