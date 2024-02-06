@@ -17,20 +17,18 @@ const modal_comments= document.getElementById('modal_comments');
 // inicialización de la variable con el array de la base de datos
 var db_data= [];
 
-// realizamos una solicitud asíncrona del archivo db.json
-fetch('db.json')
-	.then(response => {
-		// retornamos el contenido formateado en json
-		return response.json();
-	})
-	.then(data => {
-		// guardamos el contenido en la variable db_data
-		db_data= data;
-	})
+async function fetchData() {
+	const response= await fetch('db.json');
+	const data= await response.json();
+	db_data= data;
+}
+
+// Llamamos a la función fetchData para obtener los datos
+fetchData();
 
 function processString(string) {
 	// elemento object que contiene un diccionario con las letras a reemplazar
-	let to_replace= {'á': 'a', 'í': 'i', 'é': 'e', 'ó': 'o', 'ú': 'u', 'ü': 'u', 'ñ': 'n'};
+	const to_replace= {'á': 'a', 'í': 'i', 'é': 'e', 'ó': 'o', 'ú': 'u', 'ü': 'u', 'ñ': 'n'};
 	// convertimos la cadena a minúsculas
 	string= string.toLowerCase();
 	// reemplazamos las letras acentuadas por sus equivalentes sin acento con una expresión regular
@@ -78,8 +76,8 @@ search.addEventListener('keydown', event => {
 	}
 });
 
-// manejador de eventos para el botón
-search_btn.addEventListener('click', () => {
+// manejador de eventos para el botón de búsqueda
+search_btn.addEventListener('click', async () => {
 	// guardamos el id del elemento enfocado en la lista a través de su valor
 	const x= search_results.value;
 	// inicializamos la variable que contendrá la sinopsis
@@ -91,24 +89,17 @@ search_btn.addEventListener('click', () => {
 	// obtenemos el nombre del archivo json en el que se encuentra la sinopsis del libro enfocado en el select. Si el id es menor a 1000, el archivo es 0, de lo contrario se divide por mil para obtener el nombre del archivo. Expresión ternaria
 	file_name= (db_data[x].id < 1000) ? 0 : Math.floor(x / 1000);
 	// solicitud asíncrona del archivo file_name.json
-	fetch(`dbs/${file_name}.json`)
-		.then(response => {
-			// retornamos el contenido en formato json
-			return response.json();
-		})
-		.then(db_comments => {
-			// iteramos entre los elementos del array y verificamos la coincidencia del id
-			db_comments.forEach(cm => {
-				if (cm.id == x) {
-					// guardamos el contenido en la variable
-					sinopsis= cm.comments;
-				};
-			});
-			// eliminamos todas las etiquetas html, los símbolos de espacio especiales, los caracteres de saltos de línea de la cadena a través de una expresión regular
-			sinopsis= sinopsis.replace(/<[^>]*>|\n\n|\xa0/g, '');
-			// añadimos la cadena procesada como texto en el elemento p
-			modal_comments.innerText= sinopsis;
-			// cambiamos el atributo style display para que se visualice el contenido
-			modal.style.display= 'block';
-		})
+	const commentsResponse= await fetch(`dbs/${file_name}.json`);
+	const db_comments= await commentsResponse.json();
+	// iteramos entre los elementos del array y verificamos la coincidencia del id
+	db_comments.forEach(cm => {
+		if (cm.id == x) {
+			// guardamos el contenido en la variable
+			sinopsis= cm.comments;
+		};
+	});
+	// añadimos la cadena procesada como texto en el elemento p
+	modal_comments.innerText= sinopsis;
+	// cambiamos el atributo style display para que se visualice el contenido
+	modal.style.display= 'block';
 });
