@@ -1,19 +1,19 @@
 // obtenemos el elemento button
-var search_btn= document.getElementById('search_btn');
+const search_btn= document.getElementById('search_btn');
 // obtenemos el elemento input
-var search= document.getElementById('search');
+const search= document.getElementById('search');
 // obtenemos el elemento select
-var search_results= document.getElementById('search_results');
+const search_results= document.getElementById('search_results');
 // obtenemos el elemento div que va a contener la ficha del libro
-var modal= document.getElementById('modal');
+const modal= document.getElementById('modal');
 // elemento h2 de la ficha que va a contener el título
-var modal_title= document.getElementById('modal_title');
+const modal_title= document.getElementById('modal_title');
 // elemento p de la ficha que va a contener él o los autores
-var modal_authors= document.getElementById('modal_authors');
+const modal_authors= document.getElementById('modal_authors');
 // elemento p de la ficha que va a contener la cantidad de páginas
-var modal_pages= document.getElementById('modal_pages');
+const modal_pages= document.getElementById('modal_pages');
 // elemento p de la ficha que va a contener la sinopsis
-var modal_comments= document.getElementById('modal_comments');
+const modal_comments= document.getElementById('modal_comments');
 // inicialización de la variable con el array de la base de datos
 var db_data= [];
 
@@ -51,11 +51,11 @@ search.addEventListener('keydown', event => {
 			search_results.innerHTML = '';
 		}
 		// guardamos la cadena de búsqueda procesada
-		var search_term= processString(search.value);
+		const search_term= processString(search.value);
 		// iteramos entre todos los elementos del array
-		for (var i=0; i<db_data.length; i++) {
+		for (let i=0; i<db_data.length; i++) {
 			// guardamos la cadena que contiene título y autor ya procesados
-			let data= processString(db_data[i].title + db_data[i].authors);
+			const data= processString(db_data[i].title + db_data[i].authors);
 			// si el término de búsqueda está en la cadena con título y autor
 			if (data.includes(search_term)) {
 				//si el select ya tiene más de 250 elementos detenemos el proceso
@@ -81,7 +81,7 @@ search.addEventListener('keydown', event => {
 // manejador de eventos para el botón
 search_btn.addEventListener('click', () => {
 	// guardamos el id del elemento enfocado en la lista a través de su valor
-	var x= search_results.value;
+	const x= search_results.value;
 	// inicializamos la variable que contendrá la sinopsis
 	let sinopsis;
 	// añadimos el texto del h2 con el título del libro, el autor, las páginas en los elementos p
