@@ -1,3 +1,7 @@
+// Buscador de libros en base de datos json
+// Autor: Gerardo Késsler (http://gera.ar)
+// This file is covered by the GNU General Public License.
+
 // obtenemos el elemento button
 const search_btn= document.getElementById('search_btn');
 // obtenemos el elemento input
